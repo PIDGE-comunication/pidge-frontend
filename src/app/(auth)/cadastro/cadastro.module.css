@@ -1,0 +1,393 @@
+/* ─────────────────────────────────────────
+   Layout raiz
+───────────────────────────────────────── */
+.root {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Liberation Sans', Arial, sans-serif;
+}
+
+/* ─────────────────────────────────────────
+   Painel esquerdo
+───────────────────────────────────────── */
+.leftPanel {
+  width: 380px;
+  flex-shrink: 0;
+  background: #E8620A;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 36px;
+}
+
+.leftTop {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.logoName {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.logoSub {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.quote {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.55;
+  color: #fff;
+  font-style: normal;
+  margin: 0;
+}
+
+.leftBottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.appRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.appIcon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appName {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.appVersion {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 2px 0 0;
+}
+
+.leftFooterLogo {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* ─────────────────────────────────────────
+   Painel direito
+───────────────────────────────────────── */
+.rightPanel {
+  flex: 1;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 52px;
+}
+
+.formArea {
+  max-width: 440px;
+  width: 100%;
+}
+
+.formHeader {
+  margin-bottom: 28px;
+}
+
+.formTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 6px;
+}
+
+.formSubtitle {
+  font-size: 13px;
+  color: #777;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   Erro
+───────────────────────────────────────── */
+.formError {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff0eb;
+  border: 1px solid #E8620A;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #c4510a;
+  line-height: 1.5;
+}
+
+.errorIcon {
+  background: #E8620A;
+  color: #fff;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────
+   Campos
+───────────────────────────────────────── */
+.fieldGroup {
+  margin-bottom: 16px;
+}
+
+.fieldLabel {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bbb;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.fieldInput {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px 0 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fafafa;
+  font-family: inherit;
+  font-size: 13px;
+  color: #111;
+  outline: none;
+  transition: border-color 150ms ease, background 150ms ease;
+  box-sizing: border-box;
+}
+
+.fieldInput::placeholder {
+  color: #bbb;
+}
+
+.fieldInput:focus {
+  border-color: #E8620A;
+  background: #fff;
+}
+
+.fieldInputPw {
+  padding-right: 76px;
+}
+
+.togglePw {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #999;
+  padding: 0;
+  font-family: inherit;
+  transition: color 150ms ease;
+}
+
+.togglePw:hover {
+  color: #E8620A;
+}
+
+.fieldSelect {
+  width: 100%;
+  height: 42px;
+  padding: 0 32px 0 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fafafa;
+  font-family: inherit;
+  font-size: 13px;
+  color: #999;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 150ms ease;
+  box-sizing: border-box;
+}
+
+.fieldSelect:focus {
+  border-color: #E8620A;
+  color: #111;
+  background: #fff;
+}
+
+.selectArrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bbb;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────
+   Botão de submit
+───────────────────────────────────────── */
+.btnSubmit {
+  width: 100%;
+  height: 46px;
+  background: #E8620A;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 150ms ease;
+  margin-top: 4px;
+}
+
+.btnSubmit:hover:not(:disabled) {
+  background: #c4510a;
+}
+
+.btnSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ─────────────────────────────────────────
+   Link de login
+───────────────────────────────────────── */
+.alreadyAccount {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin-top: 18px;
+}
+
+.linkLogin {
+  color: #E8620A;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.linkLogin:hover {
+  text-decoration: underline;
+}
+
+/* ─────────────────────────────────────────
+   Rodapé
+───────────────────────────────────────── */
+.rightFooter {
+  margin-top: 32px;
+}
+
+.rightFooter nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+  margin-bottom: 8px;
+}
+
+.rightFooter nav a {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ccc;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.rightFooter nav a:hover {
+  color: #999;
+}
+
+.rightFooter p {
+  text-align: center;
+  font-size: 11px;
+  color: #ccc;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────
+   Responsivo
+───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .root {
+    flex-direction: column;
+  }
+
+  .leftPanel {
+    width: 100%;
+    padding: 28px 24px;
+  }
+
+  .quote,
+  .appRow,
+  .leftFooterLogo {
+    display: none;
+  }
+
+  .rightPanel {
+    padding: 28px 20px;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+  }
+}
