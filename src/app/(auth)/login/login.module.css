@@ -1,15 +1,9 @@
-/* ─────────────────────────────────────────
-   Layout raiz
-───────────────────────────────────────── */
 .root {
   display: flex;
   min-height: 100vh;
   font-family: 'Liberation Sans', Arial, sans-serif;
 }
 
-/* ─────────────────────────────────────────
-   Painel esquerdo
-───────────────────────────────────────── */
 .leftPanel {
   width: 380px;
   flex-shrink: 0;
@@ -92,9 +86,6 @@
   color: rgba(255, 255, 255, 0.35);
 }
 
-/* ─────────────────────────────────────────
-   Painel direito
-───────────────────────────────────────── */
 .rightPanel {
   flex: 1;
   background: #fff;
@@ -135,9 +126,6 @@
   margin: 0;
 }
 
-/* ─────────────────────────────────────────
-   Mensagens de feedback
-───────────────────────────────────────── */
 .formError {
   display: flex;
   align-items: flex-start;
@@ -194,9 +182,6 @@
   flex-shrink: 0;
 }
 
-/* ─────────────────────────────────────────
-   Campos
-───────────────────────────────────────── */
 .fieldGroup {
   margin-bottom: 16px;
 }
@@ -299,9 +284,7 @@
   color: #E8620A;
 }
 
-/* ─────────────────────────────────────────
-   Botão de submit
-───────────────────────────────────────── */
+
 .btnSubmit {
   width: 100%;
   height: 46px;
@@ -327,9 +310,6 @@
   cursor: not-allowed;
 }
 
-/* ─────────────────────────────────────────
-   Link de cadastro
-───────────────────────────────────────── */
 .noAccount {
   text-align: center;
   font-size: 13px;
@@ -347,9 +327,6 @@
   text-decoration: underline;
 }
 
-/* ─────────────────────────────────────────
-   Rodapé
-───────────────────────────────────────── */
 .rightFooter {
   margin-top: 32px;
 }
@@ -384,9 +361,6 @@
   margin: 0;
 }
 
-/* ─────────────────────────────────────────
-   Responsivo
-───────────────────────────────────────── */
 @media (max-width: 768px) {
   .root {
     flex-direction: column;
