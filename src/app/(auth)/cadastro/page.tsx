@@ -98,6 +98,7 @@ export default function CadastroPage() {
 
       {/* ── Painel direito ── */}
       <main className={styles.rightPanel}>
+        <div className={styles.formWrapper}>
         <div className={styles.formArea}>
           <header className={styles.formHeader}>
             <h1 className={styles.formTitle}>Comece sua jornada</h1>
@@ -248,6 +249,7 @@ export default function CadastroPage() {
             Já possui uma conta?{' '}
             <Link href="/login" className={styles.linkLogin}>Acessar Login</Link>
           </p>
+        </div>
         </div>
 
         <footer className={styles.rightFooter}>
