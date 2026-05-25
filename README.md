@@ -39,4 +39,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Autores das telas
 
 - Arthur Bianchi = Tela de Cadastro, Agenda, Feed
-- Jônatas Gandra = Tela de Login, criação de comunicados, perfil
+- Jônatas Gandra = Tela de Login, criação de comunicados, perfil, meus comunicados, painel de presenças
