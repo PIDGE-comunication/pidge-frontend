@@ -19,10 +19,12 @@ export function useUser() {
       setLoading(false)
       return
     }
+    const devFallback: User = { id: 'dev', nome: 'Dev User', email: 'dev@escola.edu.br', papel: 'admin' }
+    const isDev = process.env.NODE_ENV === 'development'
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/me`, { credentials: 'include' })
       .then(r => (r.ok ? r.json() : null))
-      .then(setUser)
-      .catch(() => setUser(null))
+      .then(data => setUser(data ?? (isDev ? devFallback : null)))
+      .catch(() => setUser(isDev ? devFallback : null))
       .finally(() => setLoading(false))
   }, [])
 
