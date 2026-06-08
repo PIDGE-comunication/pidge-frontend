@@ -238,17 +238,25 @@ export default function MeusComunicadosPage() {
           {papel === 'admin' ? 'Administração' : 'Grêmio Estudantil'}
         </span>
         {papel === 'admin' && (
-          <Link
-            href="/admin/aprovacoes"
-            className="shrink-0 h-9 px-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 text-xs font-bold hover:bg-amber-100 transition-colors flex items-center gap-1.5"
-          >
-            Fila de aprovações
-            {pendentesGremio > 0 && (
-              <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-amber-600 text-white text-[10px] font-bold">
-                {pendentesGremio}
-              </span>
-            )}
-          </Link>
+          <>
+            <Link
+              href="/admin/usuarios"
+              className="shrink-0 h-9 px-3 rounded-lg border border-gray-200 text-gray-600 text-xs font-bold hover:border-[#E8620A] hover:text-[#E8620A] transition-colors flex items-center gap-1.5"
+            >
+              Usuários
+            </Link>
+            <Link
+              href="/admin/aprovacoes"
+              className="shrink-0 h-9 px-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 text-xs font-bold hover:bg-amber-100 transition-colors flex items-center gap-1.5"
+            >
+              Fila de aprovações
+              {pendentesGremio > 0 && (
+                <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-amber-600 text-white text-[10px] font-bold">
+                  {pendentesGremio}
+                </span>
+              )}
+            </Link>
+          </>
         )}
         {podeCriar ? (
           <Link
