@@ -253,7 +253,7 @@ export default function PerfilPage() {
               disabled={salvandoSenha}
               className="h-11 rounded-lg bg-[#E8620A] text-white text-sm font-bold hover:bg-[#c4510a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {salvandoSenha ? 'Salvando...' : 'Alterar senha →'}
+              {salvandoSenha ? 'Salvando...' : 'Alterar senha '}
             </button>
           </form>
         </section>
@@ -269,7 +269,7 @@ export default function PerfilPage() {
             onClick={handleLogout}
             className="w-full h-11 rounded-lg border-2 border-red-200 text-red-500 text-sm font-semibold hover:border-red-400 hover:bg-red-50 transition-all"
           >
-            Sair da conta →
+            Sair da conta 
           </button>
         </section>
 

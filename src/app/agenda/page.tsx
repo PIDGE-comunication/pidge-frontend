@@ -300,7 +300,7 @@ export default function AgendaPage() {
                 </label>
                 <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
                   <input type="checkbox" checked={onlyConfirmados} onChange={() => setOnlyConfirmados(v => !v)} className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
-                  <span className="text-sm text-slate-700">Somente confirmados pelo aluno</span>
+                  <span className="text-sm text-slate-700">Somente confirmados</span>
                 </label>
                 <label className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
                   <input type="checkbox" checked={showPastEvents} onChange={() => setShowPastEvents(v => !v)} className="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-700" />
@@ -337,7 +337,7 @@ export default function AgendaPage() {
                 <p className="text-xs text-slate-500">Lista de compromissos e status de presença.</p>
               </div>
               <div className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-slate-600">
-                {monthHasEvents ? 'Eventos no mês' : 'Nenhum evento no mês' }
+                {monthHasEvents ? 'Eventos no dia' : 'Nenhum evento no dia' }
               </div>
             </div>
 

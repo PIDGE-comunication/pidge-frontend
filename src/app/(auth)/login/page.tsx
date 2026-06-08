@@ -74,18 +74,6 @@ function LoginForm() {
         </blockquote>
 
         <div className={styles.leftBottom}>
-          <div className={styles.appRow}>
-            <div className={styles.appIcon} aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                <path d="M6 12v5c3 3 9 3 12 0v-5" />
-              </svg>
-            </div>
-            <div>
-              <p className={styles.appName}>The Academic Curator</p>
-              <p className={styles.appVersion}>Versão 2.4.0</p>
-            </div>
-          </div>
           <span className={styles.leftFooterLogo}>PIDGE</span>
         </div>
       </aside>
@@ -141,7 +129,6 @@ function LoginForm() {
             <div className={styles.fieldGroup}>
               <div className={styles.labelRow}>
                 <label htmlFor="senha" className={styles.fieldLabel}>Senha</label>
-                <Link href="/esqueci-senha" className={styles.forgotLink}>Esqueci minha senha</Link>
               </div>
               <div className={styles.inputWrapper}>
                 <span className={styles.inputIcon} aria-hidden="true">
@@ -177,7 +164,7 @@ function LoginForm() {
               disabled={loading}
               aria-busy={loading}
             >
-              {loading ? 'Entrando…' : 'Entrar →'}
+              {loading ? 'Entrando…' : 'Entrar'}
             </button>
           </form>
 
@@ -189,11 +176,11 @@ function LoginForm() {
         </div>
 
         <footer className={styles.rightFooter}>
-          <nav aria-label="Links do rodapé">
+          {/* <nav aria-label="Links do rodapé">
             <Link href="/termos">Termos de Uso</Link>
             <Link href="/privacidade">Privacidade</Link>
-          </nav>
-          <p>© 2024 PIDGE Educational Systems</p>
+          </nav> */}
+          <p>© 2026 PIDGE Sistema Educacional de Comunicação</p>
         </footer>
       </main>
     </div>

@@ -51,7 +51,7 @@ export default function FeedPage() {
 
   const hora = new Date().getHours()
   const saudacao = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite'
-  const CURSOS = ['Desenvolvimento de Sistemas', 'Administração', 'Mecânica', 'Logística', 'Eletrotécnica', 'Eletrônica']
+  // const CURSOS = ['Desenvolvimento de Sistemas', 'Administração', 'Mecânica', 'Logística', 'Eletrotécnica', 'Eletrônica']
   
 
   useEffect(() => {
@@ -152,7 +152,7 @@ export default function FeedPage() {
 
         <div className={styles.filterSep} aria-hidden="true" />
 
-        <div className={styles.filterGroup}>
+        {/* <div className={styles.filterGroup}>
         <span className={styles.filterLabel}>Curso</span>
         <div className={styles.chips}>
             {['todos', ...CURSOS].map(val => (
@@ -165,7 +165,7 @@ export default function FeedPage() {
             </button>
             ))}
         </div>
-        </div>
+        </div> */}
 
         <div className={styles.filterSep} aria-hidden="true" />
 
