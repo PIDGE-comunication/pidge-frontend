@@ -152,8 +152,6 @@ export default function MeusComunicadosPage() {
   const [filtroDataFim, setFiltroDataFim] = useState('')
   const [expandedRejeicao, setExpandedRejeicao] = useState<string | null>(null)
   const [showArquivarModal, setShowArquivarModal] = useState<string | null>(null)
-  const [showRejeitarModal, setShowRejeitarModal] = useState<string | null>(null)
-  const [motivoRejeicao, setMotivoRejeicao] = useState('')
   const [comunicados, setComunicados] = useState<Comunicado[]>(MOCK_COMUNICADOS)
 
   const papel: 'admin' | 'gremio' =
@@ -163,7 +161,7 @@ export default function MeusComunicadosPage() {
 
   const lista = useMemo(() => {
     return comunicados.filter(c => {
-      if (papel === 'gremio' && c.criado_por !== 'gremio') return false
+      if (c.criado_por !== papel) return false
       if (filtroStatus !== 'todos' && c.status !== filtroStatus) return false
       if (busca && !c.titulo.toLowerCase().includes(busca.toLowerCase())) return false
       if (filtroDataInicio && new Date(c.data_inicio) < new Date(filtroDataInicio)) return false
@@ -172,30 +170,16 @@ export default function MeusComunicadosPage() {
     })
   }, [comunicados, papel, filtroStatus, busca, filtroDataInicio, filtroDataFim])
 
+  const pendentesGremio = useMemo(
+    () => comunicados.filter(c => c.criado_por === 'gremio' && c.status === 'aguardando_aprovacao').length,
+    [comunicados]
+  )
+
   function arquivar(id: string) {
     setComunicados(prev =>
       prev.map(c => (c.id === id ? { ...c, status: 'arquivado' as const } : c))
     )
     setShowArquivarModal(null)
-  }
-
-  function aprovar(id: string) {
-    setComunicados(prev =>
-      prev.map(c => (c.id === id ? { ...c, status: 'publicado' as const } : c))
-    )
-  }
-
-  function rejeitar(id: string) {
-    if (!motivoRejeicao.trim()) return
-    setComunicados(prev =>
-      prev.map(c =>
-        c.id === id
-          ? { ...c, status: 'rejeitado' as const, motivo_rejeicao: motivoRejeicao.trim() }
-          : c
-      )
-    )
-    setShowRejeitarModal(null)
-    setMotivoRejeicao('')
   }
 
   const podeCriar = papel === 'admin' || permissaoGremioAtiva
@@ -253,6 +237,19 @@ export default function MeusComunicadosPage() {
         <span className="hidden sm:block shrink-0 text-xs font-semibold text-gray-400 uppercase tracking-wider">
           {papel === 'admin' ? 'Administração' : 'Grêmio Estudantil'}
         </span>
+        {papel === 'admin' && (
+          <Link
+            href="/admin/aprovacoes"
+            className="shrink-0 h-9 px-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-800 text-xs font-bold hover:bg-amber-100 transition-colors flex items-center gap-1.5"
+          >
+            Fila de aprovações
+            {pendentesGremio > 0 && (
+              <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-amber-600 text-white text-[10px] font-bold">
+                {pendentesGremio}
+              </span>
+            )}
+          </Link>
+        )}
         {podeCriar ? (
           <Link
             href="/comunicados/novo"
@@ -282,6 +279,20 @@ export default function MeusComunicadosPage() {
               <p className="text-xs text-red-600 mt-0.5">
                 A administração desativou temporariamente a permissão do grêmio de publicar comunicados.
                 Entre em contato com a administração para mais informações.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Aviso para grêmio: rascunhos aguardando aprovação */}
+        {papel === 'gremio' && comunicados.some(c => c.criado_por === 'gremio' && c.status === 'aguardando_aprovacao') && (
+          <div className="flex gap-3 items-start bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+            <span className="text-amber-600 text-lg leading-none mt-0.5" aria-hidden="true">⏱</span>
+            <div>
+              <p className="text-sm font-bold text-amber-800">Aguardando revisão da administração</p>
+              <p className="text-xs text-amber-700 mt-0.5">
+                Comunicados do grêmio só são publicados após aprovação da administração.
+                Acompanhe o status na coluna ao lado.
               </p>
             </div>
           </div>
@@ -460,28 +471,10 @@ export default function MeusComunicadosPage() {
                         <td className="px-4 py-3.5">
                           <div className="flex items-center gap-1.5 justify-end">
 
-                            {/* Admin: aprovar ou rejeitar comunicado pendente do grêmio */}
-                            {papel === 'admin' && c.status === 'aguardando_aprovacao' && (
-                              <>
-                                <button
-                                  onClick={() => aprovar(c.id)}
-                                  className="h-8 px-3 rounded-lg border border-green-300 text-xs font-semibold text-green-700 hover:bg-green-50 transition-all whitespace-nowrap"
-                                >
-                                  Aprovar
-                                </button>
-                                <button
-                                  onClick={() => { setShowRejeitarModal(c.id); setMotivoRejeicao('') }}
-                                  className="h-8 px-3 rounded-lg border border-red-200 text-xs font-semibold text-red-500 hover:bg-red-50 transition-all whitespace-nowrap"
-                                >
-                                  Rejeitar
-                                </button>
-                              </>
-                            )}
-
-                            {/* Editar: grêmio em rascunho/rejeitado; admin em qualquer status exceto aguardando e arquivado */}
+                            {/* Editar: rascunho/rejeitado para qualquer papel; admin também pode editar publicados */}
                             {(c.status === 'rascunho' ||
                               c.status === 'rejeitado' ||
-                              (papel === 'admin' && c.status !== 'arquivado' && c.status !== 'aguardando_aprovacao')) && (
+                              (papel === 'admin' && c.status === 'publicado')) && (
                               <Link
                                 href={`/comunicados/${c.id}/editar`}
                                 className="h-8 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-600 hover:border-[#E8620A] hover:text-[#E8620A] transition-all whitespace-nowrap"
@@ -500,9 +493,8 @@ export default function MeusComunicadosPage() {
                               </Link>
                             )}
 
-                            {/* Arquivar: admin em qualquer status; grêmio exceto aguardando */}
-                            {c.status !== 'arquivado' &&
-                              !(papel === 'gremio' && c.status === 'aguardando_aprovacao') && (
+                            {/* Arquivar: qualquer status exceto arquivado e aguardando_aprovacao */}
+                            {c.status !== 'arquivado' && c.status !== 'aguardando_aprovacao' && (
                               <button
                                 onClick={() => setShowArquivarModal(c.id)}
                                 className="h-8 px-3 rounded-lg border border-gray-200 text-xs font-semibold text-gray-400 hover:border-red-200 hover:text-red-500 transition-all whitespace-nowrap"
@@ -551,40 +543,6 @@ export default function MeusComunicadosPage() {
           </p>
         )}
       </div>
-
-      {/* Modal rejeitar */}
-      {showRejeitarModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-sm w-full">
-            <h3 className="text-base font-bold text-gray-900 mb-1">Rejeitar comunicado</h3>
-            <p className="text-sm text-gray-500 mb-4 leading-relaxed">
-              Informe o motivo da rejeição. O grêmio verá esta mensagem ao consultar o comunicado.
-            </p>
-            <textarea
-              value={motivoRejeicao}
-              onChange={e => setMotivoRejeicao(e.target.value)}
-              placeholder="Descreva o que precisa ser corrigido ou o motivo da recusa…"
-              rows={4}
-              className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50 text-sm text-gray-900 placeholder-gray-300 outline-none focus:border-[#E8620A] focus:bg-white transition-colors resize-none mb-4"
-            />
-            <div className="flex gap-3">
-              <button
-                onClick={() => { setShowRejeitarModal(null); setMotivoRejeicao('') }}
-                className="flex-1 h-10 rounded-lg border-2 border-gray-200 text-sm font-semibold text-gray-600 hover:border-gray-400 transition-all"
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={() => rejeitar(showRejeitarModal)}
-                disabled={!motivoRejeicao.trim()}
-                className="flex-1 h-10 rounded-lg bg-red-500 text-sm font-bold text-white hover:bg-red-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                Rejeitar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Modal arquivar */}
       {showArquivarModal && (
