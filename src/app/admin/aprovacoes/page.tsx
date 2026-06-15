@@ -201,7 +201,7 @@ export default function AprovacoesPage() {
     )
   }
 
-  const ehAdmin = !user || user.papel === 'admin'
+  const ehAdmin = !user || user.papel === 'super_admin'
   if (!ehAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
@@ -209,7 +209,7 @@ export default function AprovacoesPage() {
           <p className="text-3xl mb-3" aria-hidden="true">⊘</p>
           <h1 className="text-lg font-bold text-gray-900 mb-2">Acesso restrito</h1>
           <p className="text-sm text-gray-500 mb-5">
-            A fila de aprovações é exclusiva da administração.
+            A fila de aprovações é exclusiva do super administrador.
           </p>
           <Link
             href="/meus-comunicados"

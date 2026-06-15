@@ -1,29 +1,18 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import { useState } from 'react'
 import styles from './login.module.css'
 
 function LoginForm() {
-  const searchParams = useSearchParams()
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [showSenha, setShowSenha] = useState(false)
   const [erro, setErro] = useState('')
-  const [sucesso, setSucesso] = useState('')
   const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if (searchParams.get('cadastro') === 'sucesso') {
-      setSucesso('Conta criada com sucesso! Faça login para continuar.')
-    }
-  }, [searchParams])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErro('')
-    setSucesso('')
 
     if (!email || !senha) {
       setErro('Preencha e-mail e senha para continuar.')
@@ -45,11 +34,12 @@ function LoginForm() {
 
       const papel: string = data.papel ?? data.user?.papel ?? 'aluno'
       const destino: Record<string, string> = {
-        aluno: '/aluno',
-        professor: '/professor',
-        admin: '/admin',
+        aluno: '/feed',
+        gremio: '/meus-comunicados',
+        admin: '/admin/comunicados',
+        super_admin: '/admin/comunicados',
       }
-      window.location.href = destino[papel] ?? '/dashboard'
+      window.location.href = destino[papel] ?? '/feed'
     } catch {
       setErro('Não foi possível conectar ao servidor. Tente novamente.')
     } finally {
@@ -88,13 +78,6 @@ function LoginForm() {
               Entre com suas credenciais para acessar a plataforma.
             </p>
           </header>
-
-          {sucesso && (
-            <div className={styles.formSuccess} role="status">
-              <span className={styles.successIcon} aria-hidden="true">✓</span>
-              {sucesso}
-            </div>
-          )}
 
           {erro && (
             <div className={styles.formError} role="alert">
@@ -167,11 +150,6 @@ function LoginForm() {
               {loading ? 'Entrando…' : 'Entrar'}
             </button>
           </form>
-
-          <p className={styles.noAccount}>
-            Não possui uma conta?{' '}
-            <Link href="/cadastro" className={styles.linkCadastro}>Criar conta</Link>
-          </p>
         </div>
         </div>
 
@@ -188,9 +166,5 @@ function LoginForm() {
 }
 
 export default function LoginPage() {
-  return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
-  )
+  return <LoginForm />
 }

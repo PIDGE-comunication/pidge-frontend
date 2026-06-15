@@ -7,13 +7,14 @@ interface PerfilData {
   id: string
   nome: string
   email: string
-  papel: 'admin' | 'gremio' | 'aluno'
+  papel: 'super_admin' | 'admin' | 'gremio' | 'aluno'
   curso?: string
   sala?: string
   turno?: 'manha' | 'tarde' | 'noite'
 }
 
 const PAPEL_LABEL: Record<string, string> = {
+  super_admin: 'Super administrador',
   admin: 'Administrador',
   gremio: 'Grêmio Estudantil',
   aluno: 'Aluno',

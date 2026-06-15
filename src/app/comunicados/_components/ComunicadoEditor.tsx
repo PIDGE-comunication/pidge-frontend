@@ -55,7 +55,9 @@ const STATUS_CLS: Record<Status, string> = {
 // ─── Component ───────────────────────────────────────────────────────────────
 export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: string }) {
   const { user, loading: userLoading } = useUser()
-  const papel = user?.papel as 'admin' | 'gremio' | undefined
+  const papel = user?.papel as 'super_admin' | 'admin' | 'gremio' | undefined
+  // super admin e admin publicam diretamente e podem marcar "obrigatório"; grêmio envia para aprovação
+  const ehAdminLevel = ['admin', 'super_admin'].includes(papel ?? '')
 
   // Form fields
   const [titulo, setTitulo] = useState('')
@@ -119,7 +121,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
 
   // ── Conflict check — admin only, debounced 600ms ──────────────────────────
   useEffect(() => {
-    if (papel !== 'admin' || !dataInicio || !dataFim || abrangencia.length === 0) return
+    if (!ehAdminLevel || !dataInicio || !dataFim || abrangencia.length === 0) return
     const t = setTimeout(async () => {
       try {
         const qs = new URLSearchParams({ data_inicio: dataInicio, data_fim: dataFim })
@@ -196,7 +198,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
         prioridade, data_inicio: dataInicio, data_fim: dataFim,
         publico: buildPublico(), status,
       }
-      if (papel === 'admin') body.obrigatorio = obrigatorio
+      if (ehAdminLevel) body.obrigatorio = obrigatorio
       const url = isEditing
         ? `${process.env.NEXT_PUBLIC_API_URL}/comunicados/${comunicadoId}`
         : `${process.env.NEXT_PUBLIC_API_URL}/comunicados`
@@ -263,7 +265,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
       </div>
     )
   }
-  if (!user || (papel !== 'admin' && papel !== 'gremio')) {
+  if (!user || (!ehAdminLevel && papel !== 'gremio')) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <p className="text-red-500 text-sm">Acesso não autorizado.</p>
@@ -274,7 +276,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
   const publicoResumo = getPublicoResumo()
   const btnPrimaryLabel =
     isEditing && statusComunicado === 'publicado' ? 'Salvar alterações'
-    : papel === 'admin' ? 'Publicar agora'
+    : ehAdminLevel ? 'Publicar agora'
     : 'Enviar para aprovação'
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -294,7 +296,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
           )}
         </div>
         <span className="shrink-0 text-xs font-semibold text-gray-400 uppercase tracking-wider hidden sm:block">
-          {papel === 'admin' ? 'Administração' : 'Grêmio Estudantil'}
+          {ehAdminLevel ? 'Administração' : 'Grêmio Estudantil'}
         </span>
       </header>
 
@@ -561,7 +563,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
             </div>
 
             {/* Obrigatório — admin only */}
-            {papel === 'admin' && (
+            {ehAdminLevel && (
               <div className="bg-white rounded-xl border border-gray-200 p-5">
                 <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3">
                   Obrigatório
@@ -588,7 +590,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
             )}
 
             {/* Conflict alert — admin only */}
-            {papel === 'admin' && conflito?.conflito && (
+            {ehAdminLevel && conflito?.conflito && (
               <div className="bg-amber-50 border border-amber-300 rounded-xl p-4">
                 <div className="flex gap-2.5 items-start mb-3">
                   <span className="text-amber-500 text-xl leading-none mt-0.5">⚠</span>
@@ -637,7 +639,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
                     >Pré-visualizar</button>
                   </div>
                   <button type="button" disabled={salvando}
-                    onClick={() => papel === 'admin'
+                    onClick={() => ehAdminLevel
                       ? (conflito?.conflito ? setShowPublishConflict(true) : salvar('publicado'))
                       : salvar('aguardando_aprovacao')}
                     className="w-full h-10 rounded-lg bg-[#E8620A] text-sm font-bold text-white hover:bg-[#c4510a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -661,7 +663,7 @@ export default function ComunicadoEditor({ comunicadoId }: { comunicadoId?: stri
           prioridade={prioridade} obrigatorio={obrigatorio}
           dataInicio={dataInicio} dataFim={dataFim}
           publicoResumo={publicoResumo}
-          autorNome={user.nome} autorPapel={papel}
+          autorNome={user.nome} autorPapel={papel === 'gremio' ? 'gremio' : 'admin'}
           onClose={() => setShowPreview(false)}
         />
       )}

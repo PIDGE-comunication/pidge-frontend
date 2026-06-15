@@ -1,0 +1,615 @@
+
+<h2 class="sr-only">Mapa de páginas do sistema de comunicados — visão do aluno</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+
+.nav-tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.nav-tab {
+  padding: 6px 16px; border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary); font-size: 13px; cursor: pointer;
+  transition: all .15s;
+}
+.nav-tab.active {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary); font-weight: 500;
+  border-color: var(--color-border-primary);
+}
+
+.page-header { margin-bottom: 1.25rem; }
+.page-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+.page-desc { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.5; }
+
+.section-label {
+  font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .6px;
+  color: var(--color-text-tertiary); margin: 1.25rem 0 .5rem;
+}
+
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.comp-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 12px 14px;
+}
+.comp-card-title {
+  font-size: 13px; font-weight: 500; color: var(--color-text-primary);
+  display: flex; align-items: center; gap: 7px; margin-bottom: 8px;
+}
+.comp-card-title i { font-size: 16px; color: var(--color-text-secondary); }
+.comp-items { list-style: none; }
+.comp-items li {
+  font-size: 12px; color: var(--color-text-secondary);
+  padding: 3px 0; border-bottom: 0.5px solid var(--color-border-tertiary);
+  display: flex; align-items: flex-start; gap: 6px; line-height: 1.4;
+}
+.comp-items li:last-child { border-bottom: none; }
+.comp-items li::before { content: "–"; color: var(--color-text-tertiary); flex-shrink: 0; margin-top: 1px; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; padding: 2px 8px; border-radius: 100px;
+  font-weight: 500; flex-shrink: 0;
+}
+.badge-blue { background: #E6F1FB; color: #0C447C; }
+.badge-teal { background: #E1F5EE; color: #085041; }
+.badge-purple { background: #EEEDFE; color: #3C3489; }
+.badge-amber { background: #FAEEDA; color: #633806; }
+
+.page-block {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.role-bar {
+  display: flex; gap: 8px; align-items: center;
+  margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+.role-pill {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; padding: 4px 12px; border-radius: 100px;
+  border: 0.5px solid var(--color-border-secondary);
+  color: var(--color-text-secondary);
+}
+</style>
+
+<div style="padding: 1rem 0;">
+
+<div class="role-bar">
+  <span style="font-size:12px; color:var(--color-text-tertiary);">Páginas por papel:</span>
+  <span class="role-pill"><i class="ti ti-user" aria-hidden="true" style="font-size:14px"></i>Aluno</span>
+  <span class="role-pill"><i class="ti ti-users-group" aria-hidden="true" style="font-size:14px"></i>Grêmio</span>
+  <span class="role-pill"><i class="ti ti-shield" aria-hidden="true" style="font-size:14px"></i>Admin</span>
+</div>
+
+<div class="nav-tabs" role="tablist">
+  <button class="nav-tab active" onclick="show('aluno')" role="tab">
+    <i class="ti ti-user" aria-hidden="true"></i> Aluno
+  </button>
+  <button class="nav-tab" onclick="show('gremio')" role="tab">
+    <i class="ti ti-users-group" aria-hidden="true"></i> Grêmio
+  </button>
+  <button class="nav-tab" onclick="show('admin')" role="tab">
+    <i class="ti ti-shield" aria-hidden="true"></i> Admin
+  </button>
+  <button class="nav-tab" onclick="show('comum')" role="tab">
+    <i class="ti ti-layout-grid" aria-hidden="true"></i> Comuns
+  </button>
+</div>
+
+<!-- ALUNO -->
+<div id="tab-aluno">
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Feed de comunicados</div>
+        <span class="badge badge-blue"><i class="ti ti-route" aria-hidden="true"></i>/feed</span>
+      </div>
+      <div class="page-desc">Página inicial do aluno após login. Lista todos os comunicados ativos direcionados ao seu perfil (curso + sala + turno).</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-filter" aria-hidden="true"></i>Filtros e ordenação</div>
+        <ul class="comp-items">
+          <li>Filtro por prioridade (todas / urgente / alta / média / baixa)</li>
+          <li>Filtro por tipo (obrigatório / opcional)</li>
+          <li>Ordenação padrão por prioridade desc, depois por data</li>
+          <li>Toggle "somente não lidos"</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-card-boxes" aria-hidden="true"></i>Card de comunicado</div>
+        <ul class="comp-items">
+          <li>Título + trecho do texto (truncado)</li>
+          <li>Badge de prioridade colorido</li>
+          <li>Badge "obrigatório" em destaque</li>
+          <li>Data de início e fim</li>
+          <li>Autor (nome + papel)</li>
+          <li>Indicador visual de não lido (bolinha)</li>
+          <li>Miniatura da imagem (se houver)</li>
+          <li>Público-alvo resumido (ex: "Turma A – Manhã")</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-bell" aria-hidden="true"></i>Header da página</div>
+        <ul class="comp-items">
+          <li>Badge com contagem de não lidos</li>
+          <li>Saudação com nome do aluno</li>
+          <li>Atalho para agenda pessoal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Detalhe do comunicado</div>
+        <span class="badge badge-blue"><i class="ti ti-route" aria-hidden="true"></i>/comunicados/:id</span>
+      </div>
+      <div class="page-desc">Exibe o comunicado completo. É o ponto central de interação do aluno com o evento.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-file-description" aria-hidden="true"></i>Conteúdo principal</div>
+        <ul class="comp-items">
+          <li>Título grande</li>
+          <li>Imagem em destaque (se houver)</li>
+          <li>Texto completo renderizado</li>
+          <li>Autor + data de publicação</li>
+          <li>Período de vigência (início → fim)</li>
+          <li>Público-alvo detalhado</li>
+          <li>Badge de prioridade</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-check" aria-hidden="true"></i>Ação de presença</div>
+        <ul class="comp-items">
+          <li>Botão "Confirmar presença" (opt-in para opcionais)</li>
+          <li>Status atual (confirmado / desmarcado / automático)</li>
+          <li>Se obrigatório: aviso "Presença automática registrada"</li>
+          <li>Botão "Desmarcar" abre modal com campo de justificativa</li>
+          <li>Validação: mínimo de N caracteres na justificativa</li>
+          <li>Contador de confirmações visíveis ao aluno</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-calendar-plus" aria-hidden="true"></i>Agenda</div>
+        <ul class="comp-items">
+          <li>Indicador "na sua agenda" (se confirmado)</li>
+          <li>Link rápido "Ver na agenda"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Agenda pessoal</div>
+        <span class="badge badge-blue"><i class="ti ti-route" aria-hidden="true"></i>/agenda</span>
+      </div>
+      <div class="page-desc">Calendário individual do aluno com todos os eventos confirmados (manuais e automáticos).</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-calendar" aria-hidden="true"></i>Calendário mensal</div>
+        <ul class="comp-items">
+          <li>Visualização por mês com navegação anterior / próximo</li>
+          <li>Dias com evento marcados visualmente</li>
+          <li>Cor diferente para obrigatórios vs confirmados pelo aluno</li>
+          <li>Clique no dia expande lista de eventos do dia</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-list" aria-hidden="true"></i>Lista lateral / expandida</div>
+        <ul class="comp-items">
+          <li>Card resumido de cada evento do dia selecionado</li>
+          <li>Status de presença com ícone</li>
+          <li>Justificativa exibida (se desmarcado)</li>
+          <li>Atalho para detalhe do comunicado</li>
+          <li>Botão de desmarcar presença direto da agenda</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i>Filtros</div>
+        <ul class="comp-items">
+          <li>Exibir somente obrigatórios</li>
+          <li>Exibir somente confirmados pelo aluno</li>
+          <li>Exibir eventos passados (ocultos por padrão)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- GRÊMIO -->
+<div id="tab-gremio" style="display:none">
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Meus comunicados</div>
+        <span class="badge badge-teal"><i class="ti ti-route" aria-hidden="true"></i>/meus-comunicados</span>
+      </div>
+      <div class="page-desc">Painel principal do grêmio. Lista todos os comunicados criados com status e ações disponíveis.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-table" aria-hidden="true"></i>Tabela de comunicados</div>
+        <ul class="comp-items">
+          <li>Colunas: título, prioridade, período, status, presenças</li>
+          <li>Status visual: rascunho / aguardando / publicado / rejeitado</li>
+          <li>Motivo de rejeição acessível via tooltip ou expandindo linha</li>
+          <li>Ações por linha: editar, ver presenças, arquivar</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-plus" aria-hidden="true"></i>Ação principal</div>
+        <ul class="comp-items">
+          <li>Botão "Novo comunicado" — vai para editor</li>
+          <li>Aviso visível se permissão do grêmio estiver desativada pela adm</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-filter" aria-hidden="true"></i>Filtros</div>
+        <ul class="comp-items">
+          <li>Por status</li>
+          <li>Por período</li>
+          <li>Busca por título</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Editor de comunicado</div>
+        <span class="badge badge-teal"><i class="ti ti-route" aria-hidden="true"></i>/comunicados/novo &nbsp;·&nbsp; /comunicados/:id/editar</span>
+      </div>
+      <div class="page-desc">Formulário de criação e edição de comunicados. Mesma página para novo e edição.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-forms" aria-hidden="true"></i>Campos do formulário</div>
+        <ul class="comp-items">
+          <li>Título (input texto)</li>
+          <li>Texto (editor rich text ou markdown)</li>
+          <li>Upload de imagem opcional com preview</li>
+          <li>Prioridade (select: baixa / média / alta / urgente)</li>
+          <li>Data de início e fim (date-time pickers)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-target" aria-hidden="true"></i>Seletor de público-alvo</div>
+        <ul class="comp-items">
+          <li>Opção "Escola inteira" (desativa os demais)</li>
+          <li>Multi-select de cursos</li>
+          <li>Multi-select de salas</li>
+          <li>Multi-select de turnos</li>
+          <li>Resumo visual do público selecionado</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-send" aria-hidden="true"></i>Ações</div>
+        <ul class="comp-items">
+          <li>Salvar rascunho</li>
+          <li>Enviar para aprovação</li>
+          <li>Pré-visualização do comunicado</li>
+          <li>Aviso: "este comunicado será publicado após aprovação da administração"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Painel de presenças</div>
+        <span class="badge badge-teal"><i class="ti ti-route" aria-hidden="true"></i>/comunicados/:id/presencas</span>
+      </div>
+      <div class="page-desc">Visão detalhada de quem confirmou, desmarcou e as justificativas enviadas.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-chart-pie" aria-hidden="true"></i>Resumo numérico</div>
+        <ul class="comp-items">
+          <li>Total do público-alvo</li>
+          <li>Confirmados (count + %)</li>
+          <li>Desmarcados (count + %)</li>
+          <li>Sem ação (count + %)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-users" aria-hidden="true"></i>Lista de alunos</div>
+        <ul class="comp-items">
+          <li>Abas: Confirmados / Desmarcados / Sem resposta</li>
+          <li>Nome, sala e turno de cada aluno</li>
+          <li>Data da última ação</li>
+          <li>Justificativa expandível (para desmarcados)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-download" aria-hidden="true"></i>Exportação</div>
+        <ul class="comp-items">
+          <li>Exportar lista completa em CSV</li>
+          <li>Exportar somente confirmados</li>
+          <li>Exportar somente desmarcados com justificativas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ADMIN -->
+<div id="tab-admin" style="display:none">
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Painel de aprovação</div>
+        <span class="badge badge-purple"><i class="ti ti-route" aria-hidden="true"></i>/admin/aprovacoes</span>
+      </div>
+      <div class="page-desc">Fila de comunicados do grêmio aguardando revisão. Acesso prioritário — badge de pendências no menu.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-stack" aria-hidden="true"></i>Fila de pendências</div>
+        <ul class="comp-items">
+          <li>Cards ordenados por data de envio (mais antigo primeiro)</li>
+          <li>Preview completo do comunicado inline</li>
+          <li>Público-alvo detalhado</li>
+          <li>Tempo na fila (ex: "há 2 dias")</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-check" aria-hidden="true"></i>Ações por comunicado</div>
+        <ul class="comp-items">
+          <li>Aprovar (publicação imediata)</li>
+          <li>Rejeitar — abre modal com campo de motivo obrigatório</li>
+          <li>Solicitar ajustes — rejeição com sugestão de edição</li>
+          <li>Ver histórico de revisões anteriores do mesmo rascunho</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Todos os comunicados</div>
+        <span class="badge badge-purple"><i class="ti ti-route" aria-hidden="true"></i>/admin/comunicados</span>
+      </div>
+      <div class="page-desc">Visão completa de todos os comunicados do sistema, independente de autor ou status.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-table" aria-hidden="true"></i>Tabela completa</div>
+        <ul class="comp-items">
+          <li>Colunas: título, autor, prioridade, público, período, status, presenças</li>
+          <li>Ordenação por qualquer coluna</li>
+          <li>Paginação ou scroll infinito</li>
+          <li>Ações: ver detalhe, editar, arquivar, ver presenças</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-filter" aria-hidden="true"></i>Filtros avançados</div>
+        <ul class="comp-items">
+          <li>Por status (múltipla seleção)</li>
+          <li>Por autor / papel do autor</li>
+          <li>Por prioridade</li>
+          <li>Por público-alvo</li>
+          <li>Por período de vigência</li>
+          <li>Busca por título</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Página de conflitos</div>
+        <span class="badge badge-purple"><i class="ti ti-route" aria-hidden="true"></i>/admin/conflitos</span>
+      </div>
+      <div class="page-desc">Lista de sobreposições detectadas automaticamente. Cada conflito exige resolução antes de ser arquivado.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i>Card de conflito</div>
+        <ul class="comp-items">
+          <li>Os dois comunicados lado a lado</li>
+          <li>Sobreposição destacada: período e público em conflito</li>
+          <li>Quem criou cada um e quando</li>
+          <li>Status de resolução</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-tool" aria-hidden="true"></i>Ações de resolução</div>
+        <ul class="comp-items">
+          <li>Descartar comunicado A ou B</li>
+          <li>Editar data de um dos dois (redireciona para editor)</li>
+          <li>Editar público de um dos dois</li>
+          <li>Marcar como resolvido manualmente</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-history" aria-hidden="true"></i>Histórico</div>
+        <ul class="comp-items">
+          <li>Conflitos resolvidos arquivados</li>
+          <li>Tipo de resolução aplicada</li>
+          <li>Quem resolveu e quando</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Gestão de usuários</div>
+        <span class="badge badge-purple"><i class="ti ti-route" aria-hidden="true"></i>/admin/usuarios</span>
+      </div>
+      <div class="page-desc">CRUD completo de usuários com atribuição de papéis e dados de perfil escolar.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-users" aria-hidden="true"></i>Tabela de usuários</div>
+        <ul class="comp-items">
+          <li>Nome, email, papel, curso/sala/turno</li>
+          <li>Status ativo/inativo</li>
+          <li>Data de criação</li>
+          <li>Ações: editar, desativar, resetar senha</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-user-plus" aria-hidden="true"></i>Formulário de usuário</div>
+        <ul class="comp-items">
+          <li>Nome e email</li>
+          <li>Papel (admin / grêmio / aluno)</li>
+          <li>Curso, sala e turno (para alunos)</li>
+          <li>Ativar/desativar conta</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Configurações do sistema</div>
+        <span class="badge badge-purple"><i class="ti ti-route" aria-hidden="true"></i>/admin/configuracoes</span>
+      </div>
+      <div class="page-desc">Parâmetros globais que afetam o comportamento do sistema.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-toggle-left" aria-hidden="true"></i>Toggles</div>
+        <ul class="comp-items">
+          <li>Habilitar / desabilitar publicações do grêmio</li>
+          <li>Exigir aprovação para o grêmio (sempre ativo quando grêmio habilitado)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-sliders" aria-hidden="true"></i>Parâmetros</div>
+        <ul class="comp-items">
+          <li>Mínimo de caracteres para justificativa de desmarcação</li>
+          <li>E-mail remetente das notificações</li>
+          <li>Prazo máximo para resolver conflitos (dias)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- COMUNS -->
+<div id="tab-comum" style="display:none">
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Login</div>
+        <span class="badge badge-amber"><i class="ti ti-route" aria-hidden="true"></i>/login</span>
+      </div>
+      <div class="page-desc">Entrada única para todos os papéis. Redireciona automaticamente para a página inicial do papel após autenticação.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-lock" aria-hidden="true"></i>Formulário</div>
+        <ul class="comp-items">
+          <li>Campo email</li>
+          <li>Campo senha com toggle de visibilidade</li>
+          <li>Botão entrar</li>
+          <li>Link "esqueci minha senha"</li>
+          <li>Mensagem de erro clara em caso de falha</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Meu perfil</div>
+        <span class="badge badge-amber"><i class="ti ti-route" aria-hidden="true"></i>/perfil</span>
+      </div>
+      <div class="page-desc">Dados pessoais do usuário logado. Disponível para todos os papéis.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-user-circle" aria-hidden="true"></i>Dados exibidos</div>
+        <ul class="comp-items">
+          <li>Nome completo</li>
+          <li>Email</li>
+          <li>Papel no sistema</li>
+          <li>Curso / sala / turno (se aluno)</li>
+        </ul>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-key" aria-hidden="true"></i>Ações</div>
+        <ul class="comp-items">
+          <li>Alterar senha (campo atual + nova + confirmação)</li>
+          <li>Logout</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-block">
+    <div class="page-header">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+        <div class="page-title">Página de erro / não autorizado</div>
+        <span class="badge badge-amber"><i class="ti ti-route" aria-hidden="true"></i>/403 &nbsp;·&nbsp; /404</span>
+      </div>
+      <div class="page-desc">Exibida quando o usuário acessa uma rota inexistente ou sem permissão.</div>
+    </div>
+    <div class="section-label">Componentes</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-card-title"><i class="ti ti-alert-circle" aria-hidden="true"></i>Conteúdo</div>
+        <ul class="comp-items">
+          <li>Código do erro (403 / 404)</li>
+          <li>Mensagem amigável explicando o problema</li>
+          <li>Botão "Voltar ao início" para a home do papel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<script>
+function show(tab) {
+  ['aluno','gremio','admin','comum'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.nav-tab').forEach((btn, i) => {
+    btn.classList.toggle('active', ['aluno','gremio','admin','comum'][i] === tab);
+  });
+}
+</script>

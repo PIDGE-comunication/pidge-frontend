@@ -5,7 +5,7 @@ export interface User {
   id: string
   nome: string
   email: string
-  papel: 'admin' | 'gremio' | 'aluno'
+  papel: 'super_admin' | 'admin' | 'gremio' | 'aluno'
 }
 
 export function useUser() {

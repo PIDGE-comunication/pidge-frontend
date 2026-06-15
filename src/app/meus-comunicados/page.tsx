@@ -237,7 +237,7 @@ export default function MeusComunicadosPage() {
         <span className="hidden sm:block shrink-0 text-xs font-semibold text-gray-400 uppercase tracking-wider">
           {papel === 'admin' ? 'Administração' : 'Grêmio Estudantil'}
         </span>
-        {papel === 'admin' && (
+        {user?.papel === 'super_admin' && (
           <>
             <Link
               href="/admin/usuarios"
